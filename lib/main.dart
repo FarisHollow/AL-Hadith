@@ -16,6 +16,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Sahih Bukhari',
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.teal
+      ),
       initialRoute: '/',
 
       routes: {
