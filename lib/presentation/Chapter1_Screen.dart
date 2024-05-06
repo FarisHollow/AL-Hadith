@@ -1,3 +1,4 @@
+import 'package:al_hadith/presentation/widgets/cards.dart';
 import 'package:flutter/material.dart';
 
 class Chapter1Screen extends StatefulWidget {
@@ -11,10 +12,6 @@ class _Chapter1ScreenState extends State<Chapter1Screen> {
   List<String> cardTitles = [
     'Chapter Summary',
     'Hadith: 1',
-  ];
-  List<String> cardSubtitles = [
-    'A summary of Sahih Bukhari Chapter 1',
-    'Sahih Bukhari - The First Hadith',
   ];
 
   @override
@@ -92,93 +89,7 @@ class _Chapter1ScreenState extends State<Chapter1Screen> {
                   padding: EdgeInsets.all(8.0),
                   itemCount: cardTitles.length,
                   itemBuilder: (context, index) {
-                    return Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            index == 0
-                                ? Text(
-                              cardTitles[index],
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                                : Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 20,
-                                      backgroundColor: Colors.blue,
-                                      child: Icon(
-                                        Icons.book,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    SizedBox(width: 16),
-                                    Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Sahih Bukhari",
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Text(
-                                          "Hadith: 1",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Spacer(),
-                                    ElevatedButton(
-                                      onPressed: () {},
-                                      child: Text("Sahih Hadith"),
-                                      style: ElevatedButton.styleFrom(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(20),
-                                        ),
-                                      ),
-                                    ),
-                                    PopupMenuButton(
-                                      itemBuilder: (BuildContext context) {
-                                        return <PopupMenuEntry>[
-                                          PopupMenuItem(
-                                            child: Text("Option 1"),
-                                          ),
-                                          PopupMenuItem(
-                                            child: Text("Option 2"),
-                                          ),
-                                          PopupMenuItem(
-                                            child: Text("Option 3"),
-                                          ),
-                                        ];
-                                      },
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 8),
-                                Text(
-                                  cardSubtitles[index],
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
+                    return CustomCard(index: index,);
                   },
                 ),
               ),
