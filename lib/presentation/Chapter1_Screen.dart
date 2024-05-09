@@ -1,5 +1,6 @@
 import 'package:al_hadith/presentation/widgets/cards.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Chapter1Screen extends StatefulWidget {
   const Chapter1Screen({Key? key}) : super(key: key);
@@ -35,6 +36,7 @@ class _Chapter1ScreenState extends State<Chapter1Screen> {
                     IconButton(
                       icon: Icon(Icons.arrow_back_ios),
                       onPressed: () {
+                        Get.back();
                         // Handle back button press
                       },
                       color: Colors.white, // White color for the icon

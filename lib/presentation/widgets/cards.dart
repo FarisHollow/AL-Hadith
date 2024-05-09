@@ -19,7 +19,7 @@ class CustomCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             index == 0
-                ? Column(
+                ? const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
@@ -54,7 +54,7 @@ class CustomCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 20,
                       backgroundColor: Colors.blue,
                       child: Icon(
@@ -63,7 +63,7 @@ class CustomCard extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 16),
-                    Column(
+                    const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -90,7 +90,7 @@ class CustomCard extends StatelessWidget {
                         ),
                         backgroundColor: Colors.teal,
                       ),
-                      child: Text(
+                      child: const Text(
                         "Sahih Hadith",
                         style: TextStyle(color: Colors.white),
                       ),
@@ -98,7 +98,7 @@ class CustomCard extends StatelessWidget {
                     PopupMenuButton(
                       itemBuilder: (BuildContext context) {
                         return <PopupMenuEntry>[
-                          PopupMenuItem(
+                          const PopupMenuItem(
                             child: Text("Option 1"),
                           ),
                           PopupMenuItem(

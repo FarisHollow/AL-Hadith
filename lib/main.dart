@@ -1,10 +1,13 @@
 import 'package:al_hadith/presentation/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:al_hadith/utils/db_utils.dart';
 
 
-void main() {
-  runApp(const MyApp());
+void main() async  {
+  WidgetsFlutterBinding.ensureInitialized();
+  await DBUtils.initializeDatabase();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
