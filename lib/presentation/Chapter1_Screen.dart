@@ -2,6 +2,8 @@ import 'package:al_hadith/presentation/widgets/cards.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../utils/db_utils.dart';
+
 class Chapter1Screen extends StatefulWidget {
   const Chapter1Screen({Key? key}) : super(key: key);
 
@@ -14,6 +16,40 @@ class _Chapter1ScreenState extends State<Chapter1Screen> {
     'Chapter Summary',
     'Hadith: 1',
   ];
+  List<Map<String, dynamic>> _booksData = [];
+  String _bookName = ''; // Variable to store book name
+
+
+  @override
+  void initState() {
+    super.initState();
+    initializeDatabase();
+  }
+
+  Future<void> initializeDatabase() async {
+    try {
+      await DBUtils.initializeDatabase();
+      await fetchChapterData();
+    } catch (e) {
+      // Handle database initialization error
+      print('Error initializing database: $e');
+    }
+  }
+
+  Future<void> fetchChapterData() async {
+    try {
+      List<Map<String, dynamic>> booksData = await DBUtils.executeQuery('books');
+      setState(() {
+        _booksData = booksData;
+        if (_booksData.isNotEmpty) {
+          _bookName = _booksData.first['id'];
+        }
+      });
+    } catch (e) {
+      // Handle query execution error
+      print('Error fetching chapter data: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

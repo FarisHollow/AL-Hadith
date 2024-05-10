@@ -16,7 +16,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Map<String, dynamic>> _chapterData = [];
-  String _bookName = ''; // Variable to store book name
+  List<Map<String, dynamic>> _booksData = [];
+  String _numHadith = '';
+  String _bookTitle = '';
 
 
   @override
@@ -29,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       await DBUtils.initializeDatabase();
       await fetchChapterData();
+      await fetchBooksData();
     } catch (e) {
       // Handle database initialization error
       print('Error initializing database: $e');
@@ -38,10 +41,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> fetchChapterData() async {
     try {
       List<Map<String, dynamic>> chapterData = await DBUtils.executeQuery('chapter');
+
       setState(() {
         _chapterData = chapterData;
         if (_chapterData.isNotEmpty) {
-          _bookName = _chapterData.first['chapter_id'];
         }
       });
     } catch (e) {
@@ -49,6 +52,30 @@ class _HomeScreenState extends State<HomeScreen> {
       print('Error fetching chapter data: $e');
     }
   }
+
+  Future<void> fetchBooksData() async {
+    try {
+      List<Map<String, dynamic>> booksData = await DBUtils.executeQuery('books');
+
+      setState(() {
+        _booksData = booksData;
+        if (_booksData.isNotEmpty) {
+          // Convert the retrieved value to a String before assigning it to _booksName
+          _numHadith = _booksData.first['number_of_hadis'].toString();
+          _bookTitle = _booksData.first['title'].toString();
+
+          print('Number of hadiths: $_numHadith'); // Add this line for debugging
+        }
+      });
+    } catch (e) {
+      // Handle query execution error
+      print('Error fetching books data: $e');
+    }
+  }
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Container(
               height: 100, // Adjust height as needed
               color: Colors.teal, // Teal color for the top bar
-              child: const Row(
+              child:  Row(
                 children: [
 
                   Padding(
@@ -75,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(height: 30),
 
                         Text(
-                          'Sahih Bukhari', // Display book name
+                          _bookTitle, // Display book name
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -83,7 +110,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         Text(
-                          "First Revelation Chapter",
+                          '$_numHadith Hadiths',
+
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.white,
