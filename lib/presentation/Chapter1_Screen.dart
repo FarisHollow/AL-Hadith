@@ -16,8 +16,11 @@ class _Chapter1ScreenState extends State<Chapter1Screen> {
     'Chapter Summary',
     'Hadith: 1',
   ];
+  List<Map<String, dynamic>> _chapterData = [];
   List<Map<String, dynamic>> _booksData = [];
-  String _bookName = ''; // Variable to store book name
+  String _numHadith = '';
+  String _bookTitle = '';
+  String _subTitle = '';
 
 
   @override
@@ -30,6 +33,7 @@ class _Chapter1ScreenState extends State<Chapter1Screen> {
     try {
       await DBUtils.initializeDatabase();
       await fetchChapterData();
+      await fetchBooksData();
     } catch (e) {
       // Handle database initialization error
       print('Error initializing database: $e');
@@ -38,11 +42,19 @@ class _Chapter1ScreenState extends State<Chapter1Screen> {
 
   Future<void> fetchChapterData() async {
     try {
-      List<Map<String, dynamic>> booksData = await DBUtils.executeQuery('books');
+      List<Map<String, dynamic>> chapterData = await DBUtils.executeQuery('chapter');
+
+
+
+
       setState(() {
-        _booksData = booksData;
-        if (_booksData.isNotEmpty) {
-          _bookName = _booksData.first['id'];
+        _chapterData = chapterData;
+        if (_chapterData.isNotEmpty) {
+
+          _subTitle = _chapterData.first['title'].toString();
+
+
+
         }
       });
     } catch (e) {
@@ -50,6 +62,28 @@ class _Chapter1ScreenState extends State<Chapter1Screen> {
       print('Error fetching chapter data: $e');
     }
   }
+
+  Future<void> fetchBooksData() async {
+    try {
+      List<Map<String, dynamic>> booksData = await DBUtils.executeQuery('books');
+
+      setState(() {
+        _booksData = booksData;
+        if (_booksData.isNotEmpty) {
+          // Convert the retrieved value to a String before assigning it to _booksName
+          _numHadith = _booksData.first['number_of_hadis'].toString();
+          _bookTitle = _booksData.first['title'].toString();
+
+          print('Number of hadiths: $_numHadith'); // Add this line for debugging
+        }
+      });
+    } catch (e) {
+      // Handle query execution error
+      print('Error fetching books data: $e');
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -65,55 +99,60 @@ class _Chapter1ScreenState extends State<Chapter1Screen> {
             child: Container(
               height: 100, // Adjust height as needed
               color: Colors.teal, // Teal color for the top bar
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.arrow_back_ios),
+              child:  Row(
+                children: [
+
+
+                  Padding(
+                    padding: const EdgeInsets.only(top: 30.0, left: 4),
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_back_ios),
                       onPressed: () {
                         Get.back();
                         // Handle back button press
                       },
                       color: Colors.white, // White color for the icon
                     ),
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Sahih Bukhari",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          Text(
-                            "First Revelation Chapter",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
+                  ),
+
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 30),
+
+
+                      Text(
+                        _bookTitle, // Display book name
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.info,
-                        color: Colors.white, // White color for the icon
-                        size: 30,
+                      Text(
+                        _subTitle,
+
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                        ),
                       ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 30.0, left: 200),
+                    child: Icon(
+                      Icons.info,
+                      color: Colors.white, // White color for the icon
+                      size: 30,
                     ),
-                  ],
-                ),
+                  ),
+
+                ],
               ),
             ),
           ),
-          // Clipping mechanism for circular second container
           Positioned.fill(
             top: 100,
             child: ClipRRect(

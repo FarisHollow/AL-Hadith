@@ -94,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
 
                   Padding(
-                    padding: EdgeInsets.only(left: 12),
+                    padding: EdgeInsets.only(left: 18),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Text(
                           _bookTitle, // Display book name
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
